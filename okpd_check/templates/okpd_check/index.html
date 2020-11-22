@@ -1,0 +1,59 @@
+{% extends "okpd_check/base.html" %}
+{% load static %}
+{% block title %}
+    Сервис проверки ОКПД
+{% endblock title %}
+{% block content %}
+    <div class="container h-100">
+      <div class="row h-100 justify-content-center align-items-center">
+        <div class="content-section">
+            <form method="post" action="/">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4 text-center">Проверка ОКПД</legend>
+                        <div class="form-group">
+                            <p>{{ form.check_groups }} Проверять группы</p>
+                            <p>{{ form.okpd_list.label }}:</p>
+                            {{ form.okpd_list }}
+                            {% if form.okpd_list.errors %}
+                                <ul class="errors list-group-item list-group-item-danger">
+                                    {% for error in form.okpd_list.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            </div>
+                        <div class="form-group">
+{#                            <input type="submit" id="btnFetch" value="Проверить" class="btn btn-outline-info"/>#}
+                                <button type="submit" id="btnFetch" value="Проверить" class="btn btn-outline-info">Проверить</button>
+                        </div>
+                </fieldset>
+            </form>
+                <hr>
+                <ul>
+                        <li> Список должен быть от 8 до 80000 символов</li>
+                        <li> Допускается наличие текста и кодов ОКПД вперемешку </li>
+                </ul>
+
+            <img src="{% static 'okpd_check/gif-teach.gif' %}" class="img-thumbnail" alt="gif">
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const button = document.querySelector('#btnFetch')
+        const form = document.querySelector('form')
+        button.addEventListener('click', () => {
+            if (form.reportValidity()) {
+                button.disabled = true
+                button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Проверка...`
+                form.requestSubmit(button)
+            }
+        })
+    })
+
+</script>
+{% endblock scripts %}

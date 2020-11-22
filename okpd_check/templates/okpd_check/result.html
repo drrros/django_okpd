@@ -1,0 +1,70 @@
+{% extends "okpd_check/base.html" %}
+{% block title %}
+    Результат проверки
+{% endblock title %}
+{% block content %}
+    <h4 class="text-center">Результат поиска:</h4>
+{#        <div class="container-fluid">#}
+{#            <div class="row">#}
+{#                <div class="col">#}
+                    <div class="container-fluid">
+                        <table class="table table-sm table-bordered table-hover table-responsive" style="width: auto !important;">
+                            <thead>
+                            <tr>
+                                <th scope="col">Код</th>
+                                <th scope="col">Количество записей в КТРУ</th>
+                                <th scope="col">Отменён</th>
+                                <th scope="col">Запреты</th>
+                                <th scope="col">Ограничения</th>
+                                <th scope="col">Преимущества</th>
+                                <th scope="col">Допуск</th>
+                                <th scope="col">Аукционный перечень</th>
+                                <th scope="col">Электронная форма 223-ФЗ</th>
+                                <th scope="col">Типовой контракт</th>
+                                <th scope="col">Энергоэффективность</th>
+                                <th scope="col">Перечень ТРУ, производимых УИС</th>
+                                <th scope="col">Не размещается в ЕИС</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for res in result %}
+                                {% for key, value in res.items %}
+                                    <tr>
+                                        <td>
+                                            <a href="https://zakupki.gov.ru/epz/ktru/search/results.html?searchString={{ key }}&morphology=on">{{ key }}</a>
+                                        </td>
+                                        <td class="text-center">{{ value.ktru_records_count }}</td>
+                                        <td class="text-center text-danger">{% if value.isCanceled %}
+                                            &#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.zapret == '1' %}&#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.ogranichenia == '1' %}
+                                            &#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.preimuschestvo == '1' %}
+                                            &#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.dopusk == '1' %}&#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.perechen == '1' %}&#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.forma == '1' %}&#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.tk == '1' %}&#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.efektivnost == '1' %}
+                                            &#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.perechenTryUIS == '1' %}
+                                            &#10003;{% endif %}</td>
+                                        <td class="text-center">{% if value.nepubl == '1' %}&#10003;{% endif %}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{#                </div>#}
+{#            </div>#}
+{#      </div>#}
+
+
+      <div class="container">
+      <div class="row h-100 justify-content-center align-items-center">
+          <span class="text-muted"><a href="{% url 'okpd_check_home' %}">Проверить новый список?</a></span>
+      </div>
+      </div>
+{% endblock content %}
+

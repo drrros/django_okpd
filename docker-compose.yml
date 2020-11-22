@@ -1,0 +1,34 @@
+  version: '3'
+    
+  services:
+    db:
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      image: postgres:12
+      environment:
+        - POSTGRES_DB=django_okpd
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=
+    web:
+      build: .
+      command: gunicorn -t 180 -w 3 django_okpd.wsgi:application --bind 0.0.0.0:8000
+      env_file:
+        - prod.env
+      volumes:
+        - static_volume:/code/static
+      expose:
+        - 8000
+      depends_on:
+        - db
+    nginx:
+      build: ./nginx
+      volumes:
+        - static_volume:/code/static
+      ports:
+        - 1337:80
+      depends_on:
+        - web
+    
+  volumes:
+    postgres_data:
+    static_volume:

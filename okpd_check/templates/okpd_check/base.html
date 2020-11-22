@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>
+    {% block title %}
+    {% endblock title %}
+</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'okpd_check/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'okpd_check/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'okpd_check/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'okpd_check/site.webmanifest' %}">
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}
+    {% endblock content %}
+    <br>
+    <hr>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3"><small class="text-muted">© 2020 - <a href="mailto:admin@drros.ru">admin@drros.ru</a></small>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+    {% block scripts %}
+    {% endblock scripts %}
+
+</body>
+</html>
